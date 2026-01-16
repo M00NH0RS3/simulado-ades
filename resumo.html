@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="image.png" type="image/png" />
+    <meta name="theme-color" content="#38bdf8" />
+    <title>Resumo – Atuação do Bombeiro diante de Desastres</title>
+
+    <!-- <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("sw.js")
+          .then(() => console.log("Service Worker registrado"))
+          .catch((err) => console.error("SW erro:", err));
+      }
+    </script> -->
+
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card: #0b1222f2;
+        --muted: #94a3b8;
+        --text: #e5e7eb;
+        --accent: #38bdf8;
+        --border: #334155;
+      }
+
+      body {
+        margin: 0;
+        background: radial-gradient(
+            1200px 600px at 10% -10%,
+            rgba(56, 189, 248, 0.15),
+            transparent
+          ),
+          radial-gradient(
+            1000px 600px at 120% 20%,
+            rgba(34, 197, 94, 0.12),
+            transparent
+          ),
+          var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+          "Helvetica Neue", Arial;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 24px auto;
+        padding: 0 16px;
+      }
+
+      a:link {
+        text-decoration: none;
+      }
+
+      .btn {
+        appearance: none;
+        border: 1px solid var(--border);
+        background: #0a1222;
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+        font-weight: 700;
+      }
+
+      .btn.primary {
+        background: linear-gradient(135deg, #38bdf8, #34d399);
+        border-color: transparent;
+        color: #001018;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 16px;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+        margin: 8px 0;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        color: var(--accent);
+        margin-top: 0;
+      }
+
+      ul {
+        margin: 8px 0 10px 20px;
+      }
+
+      li {
+        margin-bottom: 6px;
+      }
+
+      .highlight {
+        font-weight: 700;
+        color: var(--accent);
+      }
+
+      .muted {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <h1>🚒 Resumo – Atuação do Bombeiro diante de Desastres</h1>
+        <div>
+          <a
+            class="btn primary"
+            href="https://m00nh0rs3.github.io/simulado-ades/index.html"
+            >Simulado</a
+          >
+          <a
+            class="btn primary"
+            href="./Material de Estudo - Aulas.pdf"
+            target="_blank"
+            >📄 Aulas</a
+          >
+          <a
+            class="btn primary"
+            href="./Material de Estudo - ITO 29.pdf"
+            target="_blank"
+            >📄 ITO 29</a>
+        </div>
+      </header>
+
+      <section class="card">
+        <h2>1. Conceito Geral</h2>
+        <p>
+          A atuação do bombeiro diante de desastres envolve cenários de
+          <span class="highlight">alta complexidade</span>, com grande potencial
+          de danos humanos, ambientais e patrimoniais, exigindo
+          <strong>técnicas específicas, equipamentos especializados</strong> e
+          elevado nível de capacitação.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>2. Ocorrência Especializada</h2>
+        <p>
+          Considera-se <span class="highlight">ocorrência especializada</span>
+          aquela que:
+        </p>
+        <ul>
+          <li>Extrapola os recursos da UEOp;</li>
+          <li>Exige técnicas e equipamentos específicos;</li>
+          <li>
+            Prioriza <strong>segurança, gestão do risco</strong> e qualidade no
+            atendimento.
+          </li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>3. BEMAD – Conceito e Finalidade</h2>
+        <p>
+          O <span class="highlight">BEMAD</span> (Batalhão de Emergências
+          Ambientais e Resposta a Desastres) é a unidade especializada
+          responsável por centralizar recursos técnicos, logísticos, humanos e
+          tecnológicos.
+        </p>
+        <ul>
+          <li>Redução de custos e otimização de recursos;</li>
+          <li>Padronização de procedimentos;</li>
+          <li>Resposta técnica de alto nível em todo o Estado.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>4. Apoio Especializado e COE</h2>
+        <ul>
+          <li>
+            <span class="highlight">Apoio Especializado:</span> todo apoio
+            prestado pelo BEMAD às UEOp.
+          </li>
+          <li>
+            <span class="highlight">COE:</span> Coordenador de Operações
+            Especializadas, responsável por coordenar o serviço especializado,
+            atuando em conjunto com o CBU.
+          </li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>5. Áreas de Atuação do BEMAD</h2>
+        <ul>
+          <li>
+            <span class="highlight">PBS:</span> busca e salvamento em desastres,
+            colapsos estruturais, soterramentos e enchentes.
+          </li>
+          <li>
+            <span class="highlight">PBuSCa:</span> emprego do binômio
+            bombeiro–cão para busca de vivos e mortos.
+          </li>
+          <li>
+            <span class="highlight">PQBRN:</span> emergências com produtos
+            perigosos e descontaminação.
+          </li>
+          <li>
+            <span class="highlight">PCIF:</span> incêndios florestais de grande
+            proporção.
+          </li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>6. ITO 29</h2>
+        <p>
+          A <span class="highlight">ITO 29</span> institui o Plano de Emprego do
+          BEMAD, definindo critérios de acionamento, integração com as UEOp e
+          diretrizes para apoio especializado.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>7. INSARAG</h2>
+        <p>
+          O <span class="highlight">INSARAG</span> (International Search and
+          Rescue Advisory Group) é um grupo da ONU que padroniza as ações de
+          Busca e Salvamento Urbano (USAR), garantindo segurança, eficiência e
+          atuação integrada em desastres.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>8. Frase-chave de Prova</h2>
+        <p class="highlight">
+          Ocorrência especializada é aquela que extrapola os recursos da UEOp e
+          exige técnicas e equipamentos específicos, com foco na segurança,
+          gestão do risco e qualidade do atendimento.
+        </p>
+      </section>
+    </div>
+  </body>
+</html>
