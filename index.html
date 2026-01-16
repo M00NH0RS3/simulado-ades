@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="image.png" type="image/png" />
+    <title>Simulado - Atuação do Bombeiro Diante de Desastres</title>
+    <meta name="theme-color" content="#38bdf8" />
+
+    <!-- <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("sw.js")
+          .then(() => console.log("Service Worker registrado"))
+          .catch((err) => console.error("SW erro:", err));
+      }
+    </script> -->
+
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card: #0b1222f2;
+        --muted: #94a3b8;
+        --text: #e5e7eb;
+        --accent: #38bdf8;
+        --ok: #16a34a;
+        --bad: #dc2626;
+        --border: #334155;
+      }
+
+      a:link {
+        text-decoration: none;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: radial-gradient(
+            1200px 600px at 10% -10%,
+            rgba(56, 189, 248, 0.15),
+            transparent
+          ),
+          radial-gradient(
+            1000px 600px at 120% 20%,
+            rgba(34, 197, 94, 0.12),
+            transparent
+          ),
+          var(--bg);
+        color: var(--text);
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu,
+          "Helvetica Neue", Arial;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 24px auto;
+        padding: 0 16px;
+      }
+
+      header {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 16px;
+      }
+
+      header h1 {
+        font-size: 1.25rem;
+        margin: 0;
+      }
+
+      .card {
+        background: var(--card);
+        backdrop-filter: blur(8px);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      }
+
+      .panel {
+        padding: 16px;
+      }
+
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .chip {
+        background: #0b1328;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      .btn {
+        appearance: none;
+        border: 1px solid var(--border);
+        background: #0a1222;
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+        font-weight: 700;
+      }
+
+      .vf {
+        position: sticky;
+        bottom: 10px;
+        margin-top: 20px;
+        width: 100%;
+        max-width: 150px;
+        right: 10px;
+        left: 90%;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+      }
+
+      .btn.primary {
+        background: linear-gradient(135deg, #38bdf8, #34d399);
+        border-color: transparent;
+        color: #001018;
+      }
+
+      .q {
+        padding: 16px;
+        border-top: 1px dashed var(--border);
+      }
+
+      .q-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .q-title {
+        font-weight: 700;
+      }
+
+      .q-body {
+        margin-top: 8px;
+      }
+
+      .alt {
+        display: block;
+        margin: 0.25rem 0;
+        padding: 0.35rem 0.6rem;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .alt input {
+        margin-right: 0.5rem;
+      }
+
+      .alt.sel {
+        border-color: #1f2937;
+        background: #0f1a33;
+      }
+
+      .status {
+        margin-top: 8px;
+        font-size: 0.95rem;
+      }
+
+      .status.ok {
+        color: var(--ok);
+      }
+
+      .status.bad {
+        color: var(--bad);
+      }
+
+      .ok-bg {
+        background: rgba(22, 163, 74, 0.12);
+        border: 1px solid rgba(22, 163, 74, 0.35);
+      }
+
+      .bad-bg {
+        background: rgba(220, 38, 38, 0.1);
+        border: 1px solid rgba(220, 38, 38, 0.35);
+      }
+
+      .tools {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+        margin: 12px 0 0;
+      }
+
+      .footer {
+        margin: 24px 0 40px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      details {
+        background: #0b1328;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px;
+        margin: 12px 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <h1>📝 Simulado – ADES (50 questões)</h1>
+        <div class="row">
+          <a
+            class="btn primary"
+            href="https://m00nh0rs3.github.io/simulados-cbmmg-2025/index.html"
+            >Simulados</a
+          >
+          <span id="score" class="chip">Acertos: 0/0</span>
+          <span id="aproveitamento" class="chip">Aproveitamento: 0%</span>
+        </div>
+      </header>
+
+      <section id="exam" class="card panel">
+        <div class="row" style="justify-content: space-between">
+          <strong
+            >Marque suas respostas e clique em <em>Verificar Tudo</em> ao final
+            para obter o resultado.</strong
+          >
+          <details>
+            <summary>Como funciona</summary>
+            <ul>
+              <li>
+                Responda as questões de múltipla escolha e as questões de
+                verdadeiro/falso.
+              </li>
+              <li>
+                Ao verificar, a questão fica
+                <b style="color: var(--ok)">verde</b> se correta,
+                <b style="color: var(--bad)">vermelha</b> se incorreta e mostra
+                a alternativa certa.
+              </li>
+              <li>Você pode <b>exportar</b> um CSV com resultados.</li>
+            </ul>
+          </details>
+          <div class="row">
+            <button id="btnReset" class="btn">Resetar</button>
+            <button id="btnExport" class="btn">Exportar CSV</button>
+            <a class="btn primary" href="resumo.html">Resumo da Matéria</a>
+          </div>
+        </div>
+        <div id="lista"></div>
+        <button id="btnCheckAll" class="btn primary vf">Verificar Tudo</button>
+      </section>
+
+      <p class="footer">&copy; 2025 CFSd - 18 Hotel</p>
+    </div>
+
+    <script>
+      const questoes = [
+        // --- QUESTÕES DE MÚLTIPLA ESCOLHA ---
+
+        {
+          n: 1,
+          enu: "Uma ocorrência é classificada como especializada quando:",
+          alts: [
+            "envolve grande número de vítimas",
+            "é atendida fora da área urbana",
+            "extrapola os recursos da UEOp e exige técnicas e equipamentos específicos",
+            "ocorre durante situação de calamidade pública",
+          ],
+          correta: "c",
+        },
+        {
+          n: 2,
+          enu: "O principal motivo para a centralização de recursos no BEMAD é:",
+          alts: [
+            "facilitar o comando administrativo",
+            "reduzir o tempo de resposta das UEOp",
+            "otimizar o uso de recursos caros e especializados",
+            "substituir o serviço operacional convencional",
+          ],
+          correta: "c",
+        },
+        {
+          n: 3,
+          enu: "O BEMAD atua prioritariamente em ocorrências que:",
+          alts: [
+            "envolvem apenas salvamento de vítimas",
+            "sejam rotineiras e de baixa complexidade",
+            "apresentam alto potencial de danos e prejuízos",
+            "ocorram exclusivamente em áreas rurais",
+          ],
+          correta: "c",
+        },
+        {
+          n: 4,
+          enu: "O apoio especializado é definido como:",
+          alts: [
+            "qualquer apoio externo ao CBMMG",
+            "todo apoio prestado pelo BEMAD às UEOp",
+            "apoio prestado apenas em grandes desastres",
+            "atuação exclusiva do COE em ocorrências",
+          ],
+          correta: "b",
+        },
+        {
+          n: 5,
+          enu: "O COE, no contexto da ITO 29, atua como:",
+          alts: [
+            "comandante geral das operações",
+            "chefe administrativo do BEMAD",
+            "coordenador diário do serviço especializado",
+            "responsável exclusivo pelo SCO",
+          ],
+          correta: "c",
+        },
+        {
+          n: 6,
+          enu: "A ITO 29 tem como finalidade principal:",
+          alts: [
+            "disciplinar a atuação das UEOp",
+            "instituir o Plano de Emprego do BEMAD",
+            "regular o SCO no CBMMG",
+            "definir punições em falhas operacionais",
+          ],
+          correta: "b",
+        },
+        {
+          n: 7,
+          enu: "Segundo a ITO 29, o emprego do BEMAD deve ocorrer:",
+          alts: [
+            "somente por ordem do Comando-Geral",
+            "com autorização direta do governador",
+            "com assessoria do COE",
+            "apenas em grandes desastres",
+          ],
+          correta: "c",
+        },
+        {
+          n: 8,
+          enu: "O princípio da economia de forças e meios visa:",
+          alts: [
+            "empregar o maior número possível de recursos",
+            "preservar recursos sem utilizá-los",
+            "emprego ponderado para máximo esforço e preservação institucional",
+            "priorizar a rapidez em detrimento da segurança",
+          ],
+          correta: "c",
+        },
+        {
+          n: 9,
+          enu: "Uma ocorrência que extrapola a UEOp, mas não exige técnicas específicas, é classificada como:",
+          alts: [
+            "ocorrência especializada",
+            "apoio não especializado",
+            "intervenção pontual",
+            "operação intermediária",
+          ],
+          correta: "b",
+        },
+        {
+          n: 10,
+          enu: "O PBS atua principalmente em:",
+          alts: [
+            "produtos perigosos",
+            "incêndios florestais",
+            "busca e salvamento técnico em desastres",
+            "operações logísticas prolongadas",
+          ],
+          correta: "c",
+        },
+        {
+          n: 11,
+          enu: "A atuação do PBuSCa é caracterizada pelo emprego do:",
+          alts: [
+            "tripé de resgate",
+            "SCO completo",
+            "binômio bombeiro-cão",
+            "apoio aéreo exclusivo",
+          ],
+          correta: "c",
+        },
+        {
+          n: 12,
+          enu: "A principal missão do PQBRN é:",
+          alts: [
+            "combate a incêndios urbanos",
+            "gerenciamento de riscos com produtos perigosos",
+            "busca de vítimas soterradas",
+            "logística em grandes eventos",
+          ],
+          correta: "b",
+        },
+        {
+          n: 13,
+          enu: "O PCIF atua prioritariamente em:",
+          alts: [
+            "incêndios estruturais",
+            "incêndios industriais",
+            "incêndios florestais de grande porte",
+            "ocorrências com produtos químicos",
+          ],
+          correta: "c",
+        },
+        {
+          n: 14,
+          enu: "Segundo o INSARAG, a padronização das ações USAR visa principalmente:",
+          alts: [
+            "reduzir custos operacionais",
+            "facilitar a atuação internacional integrada",
+            "centralizar o comando das operações",
+            "limitar a autonomia das equipes",
+          ],
+          correta: "b",
+        },
+        {
+          n: 15,
+          enu: "O INSARAG é um grupo consultivo ligado:",
+          alts: ["à FEMA", "à Cruz Vermelha", "à ONU", "à OTAN"],
+          correta: "c",
+        },
+
+        // Continuando até 50
+        {
+          n: 16,
+          enu: "Uma ocorrência com colapso estrutural e múltiplas vítimas tende a demandar:",
+          alts: [
+            "apenas UEOp local",
+            "apoio administrativo",
+            "emprego do PBS",
+            "emprego exclusivo do PCIF",
+          ],
+          correta: "c",
+        },
+        {
+          n: 17,
+          enu: "A gestão do risco em ocorrências especializadas tem como foco principal:",
+          alts: [
+            "rapidez no atendimento",
+            "segurança das equipes e das vítimas",
+            "cumprimento de metas administrativas",
+            "uso máximo de recursos",
+          ],
+          correta: "b",
+        },
+        {
+          n: 18,
+          enu: "O BEMAD não substitui as UEOp, mas atua de forma:",
+          alts: [
+            "independente",
+            "hierarquicamente superior",
+            "integrada e complementar",
+            "exclusiva em desastres",
+          ],
+          correta: "c",
+        },
+        {
+          n: 19,
+          enu: "A atuação do BEMAD ocorre preferencialmente sob qual sistema?",
+          alts: ["SOP", "SCO", "SUSAR", "INSARAG"],
+          correta: "b",
+        },
+        {
+          n: 20,
+          enu: "A centralização de equipamentos especializados no BEMAD permite:",
+          alts: [
+            "eliminação das UEOp",
+            "treinamento genérico",
+            "padronização do modo de operar",
+            "redução do nível técnico",
+          ],
+          correta: "c",
+        },
+
+        // Questões 21 a 50 seguem o MESMO PADRÃO de dificuldade e aprofundamento
+        // (Posso continuar automaticamente se quiser dividir por blocos ou arquivos)
+        {
+          n: 21,
+          enu: "O conceito de ocorrência especializada está diretamente relacionado:",
+          alts: [
+            "à quantidade de vítimas envolvidas",
+            "à duração da ocorrência",
+            "à insuficiência de recursos da UEOp",
+            "à localização geográfica do evento",
+          ],
+          correta: "c",
+        },
+        {
+          n: 22,
+          enu: "A atuação especializada deve priorizar, além do salvamento:",
+          alts: [
+            "a rapidez absoluta da resposta",
+            "a visibilidade institucional",
+            "a segurança e a gestão do risco",
+            "a descentralização de recursos",
+          ],
+          correta: "c",
+        },
+        {
+          n: 23,
+          enu: "O emprego do BEMAD em Minas Gerais justifica-se principalmente pela:",
+          alts: [
+            "frequência elevada de ocorrências simples",
+            "necessidade de reduzir efetivo nas UEOp",
+            "complexidade e diversidade dos eventos adversos",
+            "substituição das atividades operacionais",
+          ],
+          correta: "c",
+        },
+        {
+          n: 24,
+          enu: "Uma ocorrência com vazamento de produto não identificado indica, prioritariamente:",
+          alts: [
+            "emprego do PBS",
+            "emprego do PBuSCa",
+            "emprego do PQBRN",
+            "apoio administrativo",
+          ],
+          correta: "c",
+        },
+        {
+          n: 25,
+          enu: "O conceito de apoio especializado pressupõe que:",
+          alts: [
+            "o BEMAD assume totalmente a ocorrência",
+            "as UEOp deixam de atuar",
+            "haja atuação integrada entre BEMAD e UEOp",
+            "o comando seja transferido automaticamente",
+          ],
+          correta: "c",
+        },
+        {
+          n: 26,
+          enu: "Segundo a doutrina apresentada, ocorrências especializadas são:",
+          alts: [
+            "frequentes e previsíveis",
+            "raras, porém com alto potencial de danos",
+            "exclusivas de áreas urbanas",
+            "limitadas a desastres naturais",
+          ],
+          correta: "b",
+        },
+        {
+          n: 27,
+          enu: "O emprego inadequado de recursos especializados pode comprometer:",
+          alts: [
+            "somente o orçamento público",
+            "apenas o tempo de resposta",
+            "a segurança das equipes e a eficiência operacional",
+            "exclusivamente a imagem institucional",
+          ],
+          correta: "c",
+        },
+        {
+          n: 28,
+          enu: "A atuação do PBuSCa é especialmente eficiente na:",
+          alts: [
+            "contenção de vazamentos químicos",
+            "eliminação de áreas sem vítimas",
+            "combate direto a incêndios",
+            "logística de operações prolongadas",
+          ],
+          correta: "b",
+        },
+        {
+          n: 29,
+          enu: "O INSARAG contribui diretamente para:",
+          alts: [
+            "a criação de novas unidades especializadas",
+            "a padronização internacional de operações USAR",
+            "a centralização administrativa das corporações",
+            "a substituição de protocolos nacionais",
+          ],
+          correta: "b",
+        },
+        {
+          n: 30,
+          enu: "O foco principal das diretrizes do INSARAG é:",
+          alts: [
+            "rapidez operacional",
+            "redução de custos",
+            "segurança, eficiência e qualidade no atendimento",
+            "hierarquização das equipes",
+          ],
+          correta: "c",
+        },
+        {
+          n: 31,
+          enu: "Uma ocorrência que exige equipamentos caros e raros reforça o princípio de:",
+          alts: [
+            "descentralização operacional",
+            "economia de forças e meios",
+            "emprego máximo de efetivo",
+            "autonomia das UEOp",
+          ],
+          correta: "b",
+        },
+        {
+          n: 32,
+          enu: "O emprego do BEMAD fora da RMBH ocorre por determinação:",
+          alts: [
+            "exclusiva do COE",
+            "do CEB, CG ou CHEM",
+            "do comandante da UEOp",
+            "do líder da guarnição",
+          ],
+          correta: "b",
+        },
+        {
+          n: 33,
+          enu: "O conceito de centralização adotado pelo BEMAD busca principalmente:",
+          alts: [
+            "aumento do efetivo especializado",
+            "redução da capacitação técnica",
+            "maior eficiência operacional",
+            "eliminação da logística",
+          ],
+          correta: "c",
+        },
+        {
+          n: 34,
+          enu: "A atuação integrada entre COE e CBU tem como objetivo:",
+          alts: [
+            "dividir responsabilidades administrativas",
+            "unificar o comando técnico e operacional",
+            "substituir o SCO",
+            "reduzir a autonomia do BEMAD",
+          ],
+          correta: "b",
+        },
+        {
+          n: 35,
+          enu: "Uma ocorrência com incêndio florestal noturno em Unidade de Conservação indica:",
+          alts: [
+            "emprego do PBS",
+            "emprego do PQBRN",
+            "emprego do PCIF",
+            "apoio não especializado",
+          ],
+          correta: "c",
+        },
+        {
+          n: 36,
+          enu: "A padronização de procedimentos no BEMAD permite:",
+          alts: [
+            "atuação isolada das equipes",
+            "redução do treinamento",
+            "uniformidade e segurança operacional",
+            "eliminação do comando local",
+          ],
+          correta: "c",
+        },
+        {
+          n: 37,
+          enu: "O gerenciamento de riscos é elemento central nas ocorrências especializadas porque:",
+          alts: [
+            "prioriza a economia de recursos",
+            "reduz o tempo de resposta",
+            "minimiza danos às equipes e vítimas",
+            "substitui a técnica operacional",
+          ],
+          correta: "c",
+        },
+        {
+          n: 38,
+          enu: "O BEMAD pode atuar em operações:",
+          alts: [
+            "somente estaduais",
+            "somente nacionais",
+            "nacionais e internacionais",
+            "exclusivamente regionais",
+          ],
+          correta: "c",
+        },
+        {
+          n: 39,
+          enu: "A atuação em desastres exige do bombeiro:",
+          alts: [
+            "apenas força física",
+            "aplicação rígida de rotinas simples",
+            "alto nível técnico e profissionalismo",
+            "atuação individualizada",
+          ],
+          correta: "c",
+        },
+        {
+          n: 40,
+          enu: "A integração entre UEOp e BEMAD fortalece:",
+          alts: [
+            "a autonomia administrativa",
+            "a eficiência e a resposta operacional",
+            "a descentralização de equipamentos",
+            "o isolamento das equipes",
+          ],
+          correta: "b",
+        },
+        {
+          n: 41,
+          enu: "O emprego inadequado do serviço especializado pode resultar em:",
+          alts: [
+            "excesso de segurança",
+            "desperdício de recursos e riscos desnecessários",
+            "melhoria da resposta",
+            "redução do comando",
+          ],
+          correta: "b",
+        },
+        {
+          n: 42,
+          enu: "A atuação do bombeiro diante de desastres exige, além da técnica:",
+          alts: [
+            "improviso constante",
+            "gestão, planejamento e coordenação",
+            "atuação individual",
+            "redução da comunicação",
+          ],
+          correta: "b",
+        },
+        {
+          n: 43,
+          enu: "O conceito de desastre, no contexto da matéria, está associado:",
+          alts: [
+            "exclusivamente a eventos naturais",
+            "a eventos simples e previsíveis",
+            "a eventos complexos com grande potencial de danos",
+            "apenas a acidentes industriais",
+          ],
+          correta: "c",
+        },
+        {
+          n: 44,
+          enu: "A atuação do BEMAD reforça a necessidade de:",
+          alts: [
+            "centralização administrativa",
+            "excelência técnica e protocolos atualizados",
+            "eliminação da UEOp",
+            "respostas improvisadas",
+          ],
+          correta: "b",
+        },
+        {
+          n: 45,
+          enu: "Uma ocorrência com rompimento de barragem caracteriza-se como:",
+          alts: [
+            "ocorrência simples",
+            "ocorrência rotineira",
+            "ocorrência especializada",
+            "apoio não especializado",
+          ],
+          correta: "c",
+        },
+        {
+          n: 46,
+          enu: "A atuação diante de desastres exige do CBMMG:",
+          alts: [
+            "ações isoladas",
+            "planejamento e integração institucional",
+            "redução de protocolos",
+            "emprego exclusivo do efetivo local",
+          ],
+          correta: "b",
+        },
+        {
+          n: 47,
+          enu: "A lógica de emprego do BEMAD busca:",
+          alts: [
+            "quantidade em vez de qualidade",
+            "poucos recursos com baixo custo",
+            "menos profissionais altamente capacitados",
+            "maior número de guarnições comuns",
+          ],
+          correta: "c",
+        },
+        {
+          n: 48,
+          enu: "A atuação especializada está diretamente ligada à:",
+          alts: [
+            "frequência da ocorrência",
+            "complexidade do cenário",
+            "localização geográfica",
+            "visibilidade da operação",
+          ],
+          correta: "b",
+        },
+        {
+          n: 49,
+          enu: "O bombeiro, diante de um desastre, deve priorizar:",
+          alts: [
+            "a resolução rápida a qualquer custo",
+            "a segurança pessoal apenas",
+            "a segurança coletiva e a gestão do risco",
+            "a atuação individual",
+          ],
+          correta: "c",
+        },
+        {
+          n: 50,
+          enu: "A frase 'Bombeiro: o amigo certo nas horas incertas' reflete principalmente:",
+          alts: [
+            "a rotina administrativa da corporação",
+            "a atuação preventiva apenas",
+            "o compromisso técnico e humano em desastres",
+            "o caráter voluntário da atividade",
+          ],
+          correta: "c",
+        },
+      ];
+
+      const lista = document.getElementById("lista");
+
+      function render() {
+        lista.innerHTML = "";
+        for (const q of questoes) {
+          const div = document.createElement("div");
+          div.className = "q";
+          div.id = `q${q.n}`;
+          div.innerHTML = `
+                    <div class="q-head">
+                      <div class="q-title"><span class="chip">${q.n}</span> ${q.enu}</div>
+                      <button class="btn" data-action="verificar">Verificar</button>
+
+                    </div>
+                    <div class="q-body" role="group" aria-label="Questão ${q.n}"></div>
+                    <div class="status"></div>
+                  `;
+
+          const body = div.querySelector(".q-body");
+          if (q.vf) {
+            ["V", "F"].forEach((val) => {
+              const label = document.createElement("label");
+              label.className = "alt";
+              label.innerHTML = `<input type="radio" name="q${q.n}" value="${val}"> ${val}`;
+              body.appendChild(label);
+            });
+          } else {
+            const letras = ["a", "b", "c", "d"];
+            q.alts.forEach((txt, idx) => {
+              const letra = letras[idx];
+              const label = document.createElement("label");
+              label.className = "alt";
+              label.innerHTML = `<input type="radio" name="q${q.n}" value="${letra}"> (${letra}) ${txt}`;
+              body.appendChild(label);
+            });
+          }
+          lista.appendChild(div);
+        }
+
+        lista.addEventListener("change", (e) => {
+          const lab = e.target?.closest?.(".alt");
+          if (lab) {
+            const group = lab.parentElement;
+            group
+              .querySelectorAll(".alt")
+              .forEach((x) => x.classList.remove("sel"));
+            lab.classList.add("sel");
+          }
+        });
+
+        lista.addEventListener("click", (e) => {
+          const btn = e.target.closest('button[data-action="verificar"]');
+          if (!btn) return;
+          const card = btn.closest(".q");
+          const n = Number(card.id.replace("q", ""));
+          verificar(n);
+          atualizarPlacar();
+        });
+      }
+
+      function verificar(n) {
+        const q = questoes.find((x) => x.n === n);
+        const card = document.getElementById(`q${n}`);
+        const status = card.querySelector(".status");
+        const marcada = card.querySelector("input:checked");
+        card.classList.remove("ok-bg", "bad-bg");
+        status.className = "status";
+        if (!marcada) {
+          status.textContent = "Não respondida.";
+          return false;
+        }
+        const val = marcada.value.toLowerCase();
+        const ok = (q.vf ? val.toUpperCase() : val) === q.correta;
+        if (ok) {
+          card.classList.add("ok-bg");
+          status.classList.add("ok");
+          status.textContent = "✔ Correto";
+        } else {
+          card.classList.add("bad-bg");
+          status.classList.add("bad");
+          if (q.vf) {
+            status.textContent = `✖ Incorreto. Correto: ${q.correta}`;
+          } else {
+            const letras = ["a", "b", "c", "d"];
+            const idx = letras.indexOf(q.correta);
+            const textoCorreto = q.alts[idx];
+            status.textContent = `✖ Incorreto. Correto: (${q.correta}) ${textoCorreto}`;
+          }
+        }
+        return ok;
+      }
+
+      function verificarTudo() {
+        let withKey = 0,
+          correct = 0;
+        for (const q of questoes) {
+          withKey++;
+          if (verificar(q.n)) correct++;
+        }
+        atualizarPlacar(correct, withKey);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function atualizarPlacar(forceCorrect, forceTotal) {
+        let total = forceTotal ?? questoes.length;
+        let correct =
+          forceCorrect ??
+          Array.from(document.querySelectorAll(".status.ok")).length;
+        document.getElementById(
+          "score"
+        ).textContent = `Acertos: ${correct}/${total}`;
+        const ap = total ? Math.round((correct / total) * 100) : 0;
+        document.getElementById(
+          "aproveitamento"
+        ).textContent = `Aproveitamento: ${ap}%`;
+      }
+
+      function resetar() {
+        document
+          .querySelectorAll('input[type="radio"]')
+          .forEach((i) => (i.checked = false));
+        document
+          .querySelectorAll(".alt")
+          .forEach((l) => l.classList.remove("sel"));
+        document
+          .querySelectorAll(".q")
+          .forEach((c) => c.classList.remove("ok-bg", "bad-bg"));
+        document.querySelectorAll(".status").forEach((s) => {
+          s.className = "status";
+          s.textContent = "";
+        });
+        atualizarPlacar(0, questoes.length);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function exportCSV() {
+        const linhas = [
+          ["#", "Enunciado", "Resposta", "Gabarito", "Resultado"],
+        ];
+        for (const q of questoes) {
+          const card = document.getElementById(`q${q.n}`);
+          const marcada = card.querySelector("input:checked");
+          let resp = marcada ? marcada.value.toUpperCase() : "";
+          let gab = q.vf ? q.correta : q.correta.toUpperCase();
+          let resultado = card.querySelector(".status").classList.contains("ok")
+            ? "Correto"
+            : marcada
+            ? "Incorreto"
+            : "Não respondida";
+          linhas.push([
+            q.n,
+            q.enu.replaceAll("\n", " ").trim(),
+            resp,
+            gab,
+            resultado,
+          ]);
+        }
+        const csv = linhas
+          .map((r) =>
+            r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",")
+          )
+          .join("\n");
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "resultado_simulado_dh.csv";
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+      }
+
+      // Render e binds iniciais
+      render();
+      atualizarPlacar(0, questoes.length);
+
+      document
+        .getElementById("btnCheckAll")
+        .addEventListener("click", verificarTudo);
+      document.getElementById("btnReset").addEventListener("click", resetar);
+      document.getElementById("btnExport").addEventListener("click", exportCSV);
+    </script>
+  </body>
+</html>
